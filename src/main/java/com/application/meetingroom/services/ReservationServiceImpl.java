@@ -21,13 +21,10 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Autowired
     ReservationsRepository reservationsRepository;
-
     @Autowired
     MeetingRoomRepository meetingRoomRepository;
-
     @Autowired
     MeetingRoomServiceImpl mrsi;
-
     @Autowired
     SequenceGeneratorService sgs;
 
@@ -85,26 +82,21 @@ public class ReservationServiceImpl implements ReservationService {
     public void deleteReservationAutomatically() {
         List<Reservations> lr = reservationsRepository.findAll();
         for(Reservations reser: lr){
-            Duration dur = Duration.between(reser.getStartTime(),LocalDateTime.now());
-            long min = dur.toMinutes();
-            System.out.println(min);
-            Duration dur1 = Duration.between(reser.getStartTime().plusMinutes(reser.getDurationInMin()),LocalDateTime.now());
-            long min1 = dur.toMinutes();
-            System.out.println(min1);
-            if(min>=0 && min1>0) {
+            if(reser.getStartTime().plusMinutes(reser.getDurationInMin()).compareTo(LocalDateTime.now())<0) {
+                System.out.println('h');
                 List<MeetingRoom> rooms = meetingRoomRepository.findAll();
                 MeetingRoom meetroom = new MeetingRoom();
-                for (MeetingRoom mr : rooms) {
-                    if (mr.getId() == reser.getRoomId()) {
-                        meetroom.setId(mr.getId());
-                        meetroom.setRoomName(mr.getRoomName());
-                        meetroom.setCapacity(mr.getCapacity());
+                rooms.stream().forEach(r->{
+                    if(r.getId() == reser.getRoomId() && r.getToTime().compareTo(reser.getStartTime().plusMinutes(reser.getDurationInMin()))==0) {
+                        meetroom.setId(r.getId());
+                        meetroom.setRoomName(r.getRoomName());
+                        meetroom.setCapacity(r.getCapacity());
                         meetroom.setStatus("unoccupied");
                         meetroom.setFromTime(null);
                         meetroom.setToTime(null);
                         meetingRoomRepository.save(meetroom);
                     }
-                }
+                });
                 reservationsRepository.deleteById(reser.getReservationId());
             }
         }
@@ -158,4 +150,3 @@ public class ReservationServiceImpl implements ReservationService {
         }
     }
 }
-

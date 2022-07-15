@@ -14,6 +14,5 @@ public interface MeetingRoomService {
     public Boolean deleteMeetingRoomById(Integer id);
     List<MeetingRoom> findMeetingRoomAvailable(String status);
 
-    int findUpdatedMeetingRooms();
 }
 

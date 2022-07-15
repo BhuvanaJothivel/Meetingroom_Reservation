@@ -13,10 +13,8 @@ import static org.springframework.data.mongodb.core.FindAndModifyOptions.options
 @Service
 public class SequenceGeneratorService {
 
-
     @Autowired
     private MongoOperations mongoOperations;
-
 
     public int getSequenceNumber(String sequenceName) {
         //get sequence no

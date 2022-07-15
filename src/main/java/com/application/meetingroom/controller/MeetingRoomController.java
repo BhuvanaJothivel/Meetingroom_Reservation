@@ -52,17 +52,4 @@ public class MeetingRoomController {
         return mrs.findMeetingRoomAvailable(status);
     }
 
-//    @Scheduled(fixedRate = 3000)
-    @GetMapping("/getUpToDateUpdatedRooms")
-    public Object findUpdatedMeetingRooms(){
-        mrr.findUpdatedRoomsByCurrentDateTime();
-        System.out.println("hey");
-        if(mrs.findUpdatedMeetingRooms()==1){
-            return mrs.getMeetingRoom();
-        }
-        else{
-            return "nothing to update";
-        }
-    }
-
 }
