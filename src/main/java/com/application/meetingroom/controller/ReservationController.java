@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/reserver")
+@RequestMapping("/api/auth")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class ReservationController {
     @Autowired
     ReservationService rs;

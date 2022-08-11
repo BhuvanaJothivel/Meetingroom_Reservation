@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/room")
+@RequestMapping("/api/auth")
+@CrossOrigin(origins = "*", maxAge = 3600)
 public class MeetingRoomController {
     @Autowired
     MeetingRoomService mrs;

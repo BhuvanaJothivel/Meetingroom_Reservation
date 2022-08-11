@@ -83,7 +83,7 @@ public class ReservationServiceImpl implements ReservationService {
         List<Reservations> lr = reservationsRepository.findAll();
         for(Reservations reser: lr){
             if(reser.getStartTime().plusMinutes(reser.getDurationInMin()).compareTo(LocalDateTime.now())<0) {
-                System.out.println('h');
+                System.out.println("About to delete");
                 List<MeetingRoom> rooms = meetingRoomRepository.findAll();
                 MeetingRoom meetroom = new MeetingRoom();
                 rooms.stream().forEach(r->{
@@ -137,14 +137,14 @@ public class ReservationServiceImpl implements ReservationService {
     public Reservations update(Reservations reservations, Integer id) {
         Optional<Reservations> optReservations = reservationsRepository.findById(id);
         if (optReservations.isPresent()) {
-            Reservations reser = optReservations.get();
-            reser.setRoomId(reservations.getRoomId());
-            reser.setPurpose(reservations.getPurpose());
-            reser.setDurationInMin(reservations.getDurationInMin());
-            reser.setStartTime(reservations.getStartTime());
-
-            Reservations updatedreser = reservationsRepository.save(reser);
-            return updatedreser;
+            Reservations reserve = optReservations.get();
+            reserve.setUserId(reservations.getUserId());
+            reserve.setRoomId(reservations.getRoomId());
+            reserve.setPurpose(reservations.getPurpose());
+            reserve.setDurationInMin(reservations.getDurationInMin());
+            reserve.setStartTime(reservations.getStartTime());
+            Reservations updatedReservation = reservationsRepository.save(reserve);
+            return updatedReservation;
         } else {
             throw new ResourceNotFoundException("Reservations", "Id",id);
         }

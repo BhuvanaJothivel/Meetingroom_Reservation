@@ -20,6 +20,7 @@ public class Reservations {
 
     @Id
     private int reservationId;
+    private String userId;
     private int roomId;
     private String purpose;
     private int durationInMin;
